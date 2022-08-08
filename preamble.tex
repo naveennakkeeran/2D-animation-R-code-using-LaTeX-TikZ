@@ -1,0 +1,157 @@
+%\documentclass[%
+%% border=1pt
+%  border={2pt 2pt 2pt 2pt} % left bottom right top
+%]{standalone}% http://ctan.org/pkg/standalone
+
+\usepackage[paperheight=9cm,paperwidth=16cm]{geometry}
+
+% this package is included to adjust page settings
+\usepackage{geometry}
+% this package is included to merge & align rows in tabular
+\usepackage{multirow}
+% this package is included to prepare equations
+\usepackage{amsmath}
+% this package is included for SI units
+\usepackage{siunitx}
+% this package is included for drawing figures
+\usepackage{tikz}
+% this package is included for calculations
+\usepackage{calc}
+% this package is included for drawing electric circuits
+\usepackage{circuitikz}
+
+\usepackage{xcolor-material}
+\usetikzlibrary{fit}
+\tikzset{%
+   apple/.pic={
+\fill [MaterialBrown] (-1/8,0) 
+  arc (180:120:1 and 3/2) coordinate [pos=3/5] (@)-- ++(1/6,-1/7) 
+  arc (120:180:5/4 and 3/2) -- cycle;
+\fill [MaterialLightGreen500] (0,-9/10) 
+  .. controls ++(180:1/8) and ++(  0:1/4) .. (-1/3,  -1)
+  .. controls ++(180:1/3) and ++(270:1/2) .. (  -1,   0)
+  .. controls ++( 90:1/3) and ++(180:1/3) .. (-1/2, 3/4)
+  .. controls ++(  0:1/8) and ++(135:1/8) .. (   0, 4/7)
+  .. controls ++( 45:1/8) and ++(180:1/8) .. ( 1/2, 3/4)
+  .. controls ++(  0:1/3) and ++( 90:1/3) .. (   1,   0)
+  .. controls ++(270:1/2) and ++(  0:1/3) .. ( 1/3,  -1)
+  .. controls ++(180:1/4) and ++(  0:1/8) .. cycle;
+\fill [MaterialLightGreen600] (0, 4/7)
+  .. controls ++( 45:1/8) and ++(180:1/8) .. ( 1/2, 3/4)
+  .. controls ++(  0:1/3) and ++( 90:1/3) .. (   1,   0)
+  .. controls ++(270:1/2) and ++(  0:1/3) .. ( 1/3,  -1)
+  .. controls ++(180:1/4) and ++(  0:1/8) .. (   0,-9/10);
+\fill [MaterialGreen500, shift={(@)}, rotate=-30] 
+  (0,0) arc (45:135:3/4 and 3/5) arc (225:315:3/4 and 3/5);
+\fill [MaterialGreen700, shift={(@)}, rotate=-30] 
+  (0,0) arc (315:225:3/4 and 3/5) -- cycle;
+},
+  orange/.pic={
+\fill [MaterialOrange500] (0,0) circle [radius=1];
+\fill [MaterialOrange600] (0,0) -- (45:1) arc (45:-135:1) -- cycle;
+\fill [MaterialOrange700, shift={(0,3/4)}] coordinate (@)
+ellipse [x radius=1/4, y radius=1/8];
+\begin{scope}
+\clip (0,0) circle [radius=1];
+\fill [MaterialOrange700, shift=(@)] (90:1/4 and 1/8) 
+  \foreach \i [evaluate={\j=mod(\i,2)+1/4;}]in {0,...,12}{
+  -- (90+\i*30:\j*3/4 and \j*3/8) } -- cycle;
+\end{scope}
+\fill [MaterialBrown] (-1/16, 3/4) -- ++(0,1/4) arc (180:0:1/16 and 1/32)
+   -- ++(0,-1/4) arc (360:180:1/16 and 1/32) -- cycle;
+\fill [MaterialGreen500, shift=(@), rotate=-150] 
+  (0,0) arc (45:135:1/2 and 4/5) arc (225:315:1/2 and 3/5);
+\fill [MaterialGreen700, shift=(@), rotate=-150] 
+  (0,0) arc (45:135:1/2 and 4/5) -- cycle;
+},
+lemon/.pic={
+\tikzset{rotate=-45}
+\fill [MaterialYellow500] (0, 0) ellipse [x radius=1/3, y radius=  1];
+\fill [MaterialYellow500] (0, 0) ellipse [x radius=3/4, y radius=7/8];
+\fill [MaterialYellow600] (270:1/3 and   1) arc (270:450:1/3 and   1);
+\fill [MaterialYellow600] (270:3/4 and 7/8) arc (270:450:3/4 and 7/8);
+\begin{scope}[shift=(90:9/10), rotate=-135]
+\fill [MaterialGreen500] 
+  (0,0) arc (45:135:1/2 and 4/5) arc (225:315:1/2 and 3/5);
+\fill [MaterialGreen700] 
+  (0,0) arc (45:135:1/2 and 4/5) -- cycle;
+\tikzset{rotate=90, scale=3/4}
+\fill [MaterialGreen500] 
+  (0,0) arc (45:135:1/2 and 4/5) arc (225:315:1/2 and 3/5);
+\fill [MaterialGreen700] 
+  (0,0) arc (45:135:1/2 and 4/5) -- cycle;
+\end{scope}
+},
+cherry/.pic={
+\foreach \i in {1,2}{
+\tikzset{shift={(-1+\i*3/4, -3/5+\i/5)},scale=1/2, rotate=15-\i*10}
+\fill [MaterialRed700] (0,19/20) 
+  .. controls ++(180:1/8) and ++(  0:1/4) .. (-1/3,  1)
+  .. controls ++(180:1/3) and ++( 90:1/2) .. (  -1,  0)
+  .. controls ++(270:1/2) and ++(180:1/2) .. (   0, -1)
+  .. controls ++(  0:1/2) and ++(270:1/2) .. (   1,  0)
+  .. controls ++( 90:1/2) and ++(  0:1/3) .. ( 1/3,  1)
+  .. controls ++(180:1/4) and ++(  0:1/8) .. cycle;
+\fill [MaterialRed800] (0, -1)
+  .. controls ++(  0:1/2) and ++(270:1/2) .. (   1,  0)
+  .. controls ++( 90:1/2) and ++(  0:1/3) .. ( 1/3,  1)
+  .. controls ++(180:1/4) and ++(  0:1/8) .. (   0,19/20) -- cycle;
+\fill [MaterialRed900] (0,3/4) coordinate (@\i) 
+  ellipse [x radius=1/4, y radius=1/8];
+}
+\fill [MaterialBrown]
+  (1/4,11/8) -- (3/8,11/8) coordinate (@)
+  .. controls ++(270:1/2) and ++(135:1/3) .. (@1)
+  .. controls ++(135:1/2) and ++(270:1/2) .. cycle;
+\fill [MaterialBrown]
+  (1/4,11/8) -- (3/8,11/8)
+  .. controls ++(315:1/2) and ++(45:1/2) .. (@2)
+  .. controls ++(60:1/2) and ++(315:1/2) .. cycle;
+\fill [MaterialGreen500, shift={(@)}, rotate=20] 
+  (0,0) arc (45:135:3/4 and 3/5) arc (225:315:3/4 and 3/5);
+\fill [MaterialGreen700, shift={(@)}, rotate=20] 
+  (0,0) arc (315:225:3/4 and 3/5) -- cycle;
+},
+shark/.pic={
+\fill [MaterialBlueGrey200] 
+  (2,16.75) -- ++(0.5,-1) -- ++(0.5,1) -- cycle
+  (3,16.25) -- ++(0.5,-1) -- ++(0.5,1) -- cycle
+  (1,17)    -- ++(0.5,-1) -- ++(0.5,1) -- cycle
+  (2,15.5)  -- ++(-.5,-1) -- ++(1,0) -- cycle
+  (3,15)    -- ++(-.5,-1) -- ++(1,0) -- cycle;
+\fill [MaterialBlueGrey700] (6,12)
+  .. controls (5,11) and (5,8)  .. (6,7)
+  .. controls (7,8)  and (7,9)  .. (8,10)
+  .. controls (8,11) and (7,12) .. (6,12)-- cycle;
+\fill [MaterialBlueGrey500] (0,20)
+  .. controls (0,19)  and (0,18)  .. (1,17)
+  .. controls (3,16)  and (4,16)  .. (4,15)
+  .. controls (4,14)  and (2,15)  .. (1,15)
+  .. controls (2,13)  and (3,12)  .. (5,10)
+  .. controls (7,8)   and (11,6)  .. (14,5)
+  .. controls (14,3)  and (14,1)  .. (15,0)
+  .. controls (15,2)  and (15,3)  .. (16,4)
+  .. controls (17,5)  and (18,6)  .. (20,6)
+  .. controls (19,7)  and (16,7)  .. (15,6)
+  .. controls (14,10) and (11,15) .. (9,17)
+  .. controls (7,19)  and (3,20)  .. (0,20) -- cycle;
+\fill [MaterialBlueGrey100] (0,20)
+  .. controls (0,19) and (0,18) .. (1,17)
+  .. controls (3,16) and (4,16) .. (4,15)
+  .. controls (4,14) and (2,15) .. (1,15)
+  .. controls (2,13) and (3,12) .. (5,10)
+  .. controls (7,8)  and (11,6) .. (14,5)
+  .. controls (13,8) and (7,8)  .. (6,12)
+  .. controls (5,16) and (2,19) .. (0,20) -- cycle;
+\fill [MaterialBlueGrey500] (3,13)
+  .. controls (2,12) and (2,9)  .. (3,8)
+  .. controls (4,9)  and (4,10) .. (5,11)
+  .. controls (5,12) and (4,13) .. (3,13) -- cycle;
+\fill [MaterialBlueGrey500] (9,18)
+  .. controls (8,18)  and (7.5,17.5) .. (7,17)
+  .. controls (7,16)  and (9,14)     .. (10,14)
+  .. controls (10,15) and (11,17)    .. (12,17)
+  .. controls (11,18) and (10,18)    .. (9,18) -- cycle;
+\fill [MaterialBlueGrey800] (6,17.5) circle [radius=0.5];
+}
+}

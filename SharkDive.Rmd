@@ -1,0 +1,28 @@
+---
+documentclass: article
+
+output:
+  pdf_document:
+    latex_engine: lualatex
+    includes:
+      in_header: "preamble.tex"
+params:
+  draw_content: "\\draw pic[xshift=0in,yshift=0in,scale=0.15,rotate around={0:(2,-1)}] {shark};"
+
+---
+
+<!---
+To supress page number in the pdf file generated as per the LaTeX code
+--->
+\thispagestyle{empty}
+\begin{center}
+\begin{tabular}{c}
+\vspace{-0.25in}\\
+{\Large \bf Animation by Mr Naveen Nakkeeran} \\ \vspace{1.35in} \\
+\begin{tikzpicture}[remember picture,overlay]
+\begin{scope}[xshift = -0.6in]
+`r params$draw_content`
+\end{scope}
+\end{tikzpicture}
+\end{tabular}
+\end{center}
